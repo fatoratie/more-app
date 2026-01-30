@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المزيد من تطبيقات القرآن الكريم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 415px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            border-radius: 20px 20px 0 0;
+        }
+
+        header {
+            background: #511730;
+            color: white;
+            padding: 20px;
+            margin: -30px -20px 25px -20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .header-icon i {
+            font-size: 20px;
+            color: white;
+        }
+
+        .app-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .app-icon:hover {
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .header-center {
+            flex: 1;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 20px;
+            color: white;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 20px 15px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.12));
+            border-radius: 15px;
+        }
+
+        .page-title h2 {
+            font-size: 22px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .apps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 0 5px 10px 5px;
+        }
+
+        .apps-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .apps-list::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
+
+        .apps-list::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+        }
+
+        .app-card {
+            background: #f5f7fa;
+            border: 2px solid #2c2c3e;
+            border-radius: 20px;
+            padding: 22px 18px;
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.5s ease-out forwards;
+            opacity: 0;
+            min-height: 140px;
+        }
+
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.03), rgba(118, 75, 162, 0.03));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .app-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: #4a5568;
+            background: #ffffff;
+        }
+
+        .app-card:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .app-image-wrapper {
+            position: relative;
+            z-index: 1;
+            flex-shrink: 0;
+        }
+
+        .app-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 25px;
+            object-fit: cover;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            border: 4px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .app-card:hover .app-image {
+            transform: scale(1.05);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .app-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .app-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c5aa0;
+            line-height: 1.3;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #4285f4, #3367d6);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 14px 28px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(66, 133, 244, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(66, 133, 244, 0.45);
+            background: linear-gradient(135deg, #5294ff, #4285f4);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .app-card {
+                padding: 20px 15px;
+                min-height: 130px;
+            }
+
+            .app-image {
+                width: 110px;
+                height: 110px;
+            }
+
+            .app-name {
+                font-size: 20px;
+            }
+
+            .download-btn {
+                padding: 13px 24px;
+                font-size: 16px;
+            }
+
+            .page-title h2 {
+                font-size: 20px;
+            }
+
+            .page-title p {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .app-card {
+                padding: 18px 12px;
+                min-height: 120px;
+                gap: 12px;
+            }
+
+            .app-image {
+                width: 100px;
+                height: 100px;
+            }
+
+            .app-name {
+                font-size: 18px;
+            }
+
+            .download-btn {
+                padding: 12px 20px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-icon" onclick="goBack()" title="الصفحة الرئيسية">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+            <div class="header-center">
+                <div class="title">تطبيقات القرآن الكريم</div>
+                <div class="subtitle">مجانية</div>
+            </div>
+            <img src="data/icon.png" alt="App Icon" class="app-icon" title="التطبيق">
+        </header>
+
+        <div class="page-title">
+            <h2>المزيد من تطبيقات القرآن الكريم</h2>
+            <p>اكتشف مجموعة متنوعة من تطبيقات القرآن بأصوات أشهر القراء</p>
+        </div>
+
+        <div class="apps-list" id="appsList">
+            <!-- سيتم إضافة التطبيقات هنا تلقائياً -->
+        </div>
+    </div>
+
+    <script>
+        // قائمة التطبيقات العشرة
+        const apps = [
+            {
+                name: 'ياسين الجزائري',
+                image: 'data/ad1.png',
+                link: 'https://play.google.com/store/apps/details?id=com.reda.jazairi'
+            },
+            {
+                name: 'مصباح ساني',
+                image: 'data/ad2.png',
+                link: 'https://play.google.com/store/apps/details?id=com.reda.sani'
+            },
+            {
+                name: 'محمد الفقيه',
+                image: 'data/ad3.png',
+                link: 'https://play.google.com/store/apps/details?id=com.reda.alfaqih'
+            },
+            {
+                name: 'محمود خليل الحصري',
+                image: 'data/ad4.png',
+                link: 'https://play.google.com/store/apps/details?id=com.reda.hossari'
+            },
+            {
+                name: 'العيون الكوشي',
+                image: 'data/ad5.png',
+                link: 'https://play.google.com/store/apps/details?id=com.reda.alkouchi'
+            },
+            {
+                name: 'عمر القزابري',
+                image: 'data/ad6.png',
+                link: 'https://play.google.com/store/apps/details?id=com.reda.kazabri'
+            },
+            {
+                name: 'أحمد العجمي',
+                image: 'data/ad7.png',
+                link: 'https://play.google.com/store/apps/details?id=com.reda.alaajmi'
+            },
+            {
+                name: 'هشام الهراز',
+                image: 'data/ad8.png',
+                link: 'https://play.google.com/store/apps/details?id=com.reda.hicham'
+            },
+            {
+                name: 'هزاع البلوشي',
+                image: 'data/ad9.png',
+                link: 'https://play.google.com/store/apps/details?id=com.reda.hazaa'
+            },
+            {
+                name: 'مصطفى غربي',
+                image: 'data/ad10.png',
+                link: 'https://play.google.com/store/apps/details?id=com.reda.ghorabi'
+            }
+            // يمكنك إضافة المزيد من التطبيقات هنا بنفس التنسيق:
+            // {
+            //     name: 'اسم التطبيق',
+            //     image: 'مسار الصورة',
+            //     link: 'رابط التطبيق'
+            // }
+        ];
+
+        // إنشاء بطاقات التطبيقات
+        const appsList = document.getElementById('appsList');
+        
+        apps.forEach((app, index) => {
+            const appCard = document.createElement('div');
+            appCard.className = 'app-card';
+            appCard.style.animationDelay = `${index * 0.08}s`;
+            
+            appCard.innerHTML = `
+                <div class="app-image-wrapper">
+                    <img src="${app.image}" alt="${app.name}" class="app-image" onerror="this.src='icon.png'">
+                </div>
+                <div class="app-content">
+                    <div class="app-name">${app.name}</div>
+                    <a href="${app.link}" target="_blank" class="download-btn">
+                        تحميل
+                    </a>
+                </div>
+            `;
+            
+            appsList.appendChild(appCard);
+        });
+
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>
